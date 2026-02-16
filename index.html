@@ -20,30 +20,64 @@
             color: white; overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        /* --- تأثيرات الخلفية (البرق والغيوم) --- */
-        #background-fx { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        
-        /* ومضات البرق */
-        .lightning-flash {
-            position: absolute; width: 100%; height: 100%; background: #fff; opacity: 0;
-            animation: lightningAnim 5s infinite;
+        /* =========================================
+           تعديل الخلفية السينمائية الجديدة (غيوم وبرق)
+           ========================================= */
+        #background-fx { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 1; pointer-events: none; overflow: hidden;
+            /* خلفية متدرجة داكنة كأساس */
+            background: linear-gradient(to bottom, #000000, #1a1a1a);
         }
-        @keyframes lightningAnim {
-            0%, 90%, 94%, 100% { opacity: 0; }
-            92% { opacity: 0.4; }
-            93% { opacity: 0.1; }
-            95% { opacity: 0.5; }
+        
+        /* طبقات الغيوم لخلق عمق سينمائي */
+        .cloud-layer {
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            /* استخدام نسيج ضبابي وتكراره */
+            background-image: url('https://www.transparenttextures.com/patterns/foggy-birds.png');
+            background-size: 500px 500px;
+            filter: blur(3px) contrast(1.2); /* تنعيم وزيادة التباين */
+            opacity: 0.4;
         }
 
-        /* الغيوم السينمائية */
-        .cinematic-clouds {
-            position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
-            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-            background-color: rgba(20, 20, 20, 0.8);
-            filter: blur(10px); opacity: 0.5;
-            animation: moveClouds 40s linear infinite;
+        /* الطبقة الأولى: حركة بطيئة */
+        .layer-1 {
+            animation: moveCloudsIsomorphic 60s linear infinite;
+            opacity: 0.3;
         }
-        @keyframes moveClouds { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* الطبقة الثانية: حركة أسرع قليلاً واتجاه مختلف وعمق أكبر */
+        .layer-2 {
+            background-size: 800px 800px; /* حجم غيوم مختلف */
+            animation: moveCloudsIsomorphic 45s linear infinite reverse;
+            opacity: 0.2;
+            filter: blur(5px) contrast(1.1);
+        }
+
+        @keyframes moveCloudsIsomorphic {
+            from { transform: translateY(0) translateX(0) rotate(0deg); }
+            to { transform: translateY(-100px) translateX(-100px) rotate(5deg); }
+        }
+
+        /* ومضات البرق الواقعية (رعشة) */
+        .lightning-flash {
+            position: absolute; top:0; left:0; width: 100%; height: 100%;
+            background: #fff; opacity: 0; z-index: 5;
+            /* جعل البرق عشوائي أكثر */
+            animation: erraticLightning 7s infinite;
+        }
+
+        /* أنيميشن برق متقطع وواقعي */
+        @keyframes erraticLightning {
+            0%, 90%, 100% { opacity: 0; }
+            91% { opacity: 0.8; } /* ومضة قوية */
+            91.5% { opacity: 0.2; } /* خفوت سريع */
+            92% { opacity: 0.5; } /* ومضة تابعة */
+            93% { opacity: 0; }
+            96% { opacity: 0.3; } /* ومضة بعيدة */
+            96.5% { opacity: 0; }
+        }
+        /* ========================================= */
 
         /* --- اللوجو النابض والدوار --- */
         .dynamic-logo {
@@ -93,17 +127,18 @@
 <body>
 
     <div id="background-fx">
-        <div class="cinematic-clouds"></div>
+        <div class="cloud-layer layer-1"></div>
+        <div class="cloud-layer layer-2"></div>
         <div class="lightning-flash"></div>
     </div>
 
     <canvas id="starfield"></canvas>
     
-    <img src="https://i.ibb.co/XRTF1pS7/1000267202.png" id="miniLogo" class="mini-logo-fixed">
+    <img src="" id="miniLogo" class="mini-logo-fixed">
 
     <div id="splashPage" class="page splash-content active">
         <div style="text-align: center;">
-            <img src="https://i.ibb.co/XRTF1pS7/1000267202.png" class="dynamic-logo">
+            <img src="" id="mainHeroLogo" class="dynamic-logo">
             <div class="store-name">X STORE</div>
         </div>
         <nav class="main-menu">
@@ -131,18 +166,41 @@
     </div>
 
     <script>
+        // ==========================================
+        //  رابط اللوجو الخاص بك (غيره هنا فقط)
+        // ==========================================
+        const myLogoURL = "https://i.ibb.co/XRTF1pS7/1000267202.png"; 
+
+        // تطبيق اللوجو في الأماكن المحددة
+        document.getElementById('mainHeroLogo').src = myLogoURL;
+        document.getElementById('miniLogo').src = myLogoURL;
+
+        // ==========================================
+        //  بيانات المنتجات
+        // ==========================================
         const products = [
             { id: 1, name: "UNIVERSITY HOODIE", price: "999.00", img: "Picsart_26-02-14_16-25-30-082.png" },
             { id: 2, name: "RASPBERRY SWEAT", price: "850.00", img: "Picsart_26-02-14_16-25-05-041.png" },
             { id: 3, name: "NY BLACK EDITION", price: "999.00", img: "Picsart_26-02-14_16-24-39-633.png" },
-            { id: 4, name: "AMAZING OVERSIZE", price: "750.00", img: "Picsart_26-02-13_22-03-08-041.png" }
+            { id: 4, name: "AMAZING OVERSIZE", price: "750.00", img: "Picsart_26-02-13_22-03-08-041.png" },
+            { id: 5, name: "VINTAGE WHITE", price: "900.00", img: "ضع_رابط_الصورة_هنا" },
+            { id: 6, name: "DARK SHADOW X", price: "1100.00", img: "ضع_رابط_الصورة_هنا" }
         ];
 
         const whatsappNumber = "201000000000";
 
-        // إدارة التنقل
-        window.addEventListener('load', () => history.replaceState({page: 'splashPage'}, "", "#splashPage"));
-        window.onpopstate = (e) => renderPage(e.state ? e.state.page : 'splashPage');
+        // إدارة التنقل والـ History
+        window.addEventListener('load', () => {
+            history.replaceState({page: 'splashPage'}, "", "#splashPage");
+        });
+
+        window.onpopstate = function(event) {
+            if (event.state && event.state.page) {
+                renderPage(event.state.page);
+            } else {
+                renderPage('splashPage');
+            }
+        };
 
         function navigateTo(pageId) {
             history.pushState({page: pageId}, "", "#" + pageId);
@@ -152,31 +210,71 @@
         function renderPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            document.getElementById('miniLogo').style.display = (pageId === 'splashPage') ? 'none' : 'block';
+            
+            // إظهار اللوجو المصغر في الصفحات الداخلية فقط
+            const miniLogo = document.getElementById('miniLogo');
+            miniLogo.style.display = (pageId === 'splashPage') ? 'none' : 'block';
+
+            // التحكم في النجوم (اختياري: ممكن نخفيها عشان الغيوم تبان أكتر)
+            const starfield = document.getElementById('starfield');
+            if(pageId !== 'splashPage'){
+                starfield.style.opacity = '0.3'; // تخفيف النجوم في الصفحات الداخلية
+            } else {
+                starfield.style.opacity = '1';
+            }
             window.scrollTo(0,0);
         }
 
+        // بناء شبكة المنتجات
         const grid = document.getElementById('productsGrid');
         products.forEach(p => {
             const card = document.createElement('div');
             card.className = 'product-card';
             card.onclick = () => openProduct(p);
-            card.innerHTML = `<img src="${p.img}" class="img-box" onerror="this.src='https://placehold.co/400'"><div style="margin-top:15px; font-weight:bold;">${p.name}</div><div style="color:#ccc; margin-top:5px;">LE ${p.price}</div>`;
+            card.innerHTML = `
+                <img src="${p.img}" class="img-box" onerror="this.src='https://placehold.co/400x400/111/444?text=Product'">
+                <div style="margin-top:15px; font-weight:bold;">${p.name}</div>
+                <div style="color:#ccc; margin-top:5px;">LE ${p.price}</div>
+            `;
             grid.appendChild(card);
         });
 
         function openProduct(product) {
             const detailBox = document.getElementById('productDetailContent');
-            detailBox.innerHTML = `<img src="${product.img}" class="detail-img"><div class="detail-info"><h1>${product.name}</h1><div style="font-size:1.8rem; font-weight:bold;">LE ${product.price} EGP</div><p>High-end streetwear fabric, handcrafted for X STORE.</p><button class="btn-buy" onclick="window.open('https://wa.me/${whatsappNumber}')">BUY NOW (WHATSAPP)</button></div>`;
+            detailBox.innerHTML = `
+                <img src="${product.img}" class="detail-img" onerror="this.src='https://placehold.co/400x400/111/444?text=Product'">
+                <div class="detail-info">
+                    <h1 style="letter-spacing:3px; color:white;">${product.name}</h1>
+                    <div class="price-tag">LE ${product.price} EGP</div>
+                    <p style="color:#ccc; font-size:0.9rem; font-family:sans-serif;">High-end streetwear fabric, handcrafted for X STORE. Exclusive limited drop.</p>
+                    <div class="action-btns">
+                        <button class="btn-buy" onclick="window.open('https://wa.me/${whatsappNumber}')">BUY NOW (WHATSAPP)</button>
+                    </div>
+                </div>
+            `;
             navigateTo('productDetailPage');
         }
 
-        // كود النجوم الأصلي بتاعك
+        // كود النجوم
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         let stars = [];
-        function initStars() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; stars = []; for(let i=0; i<400; i++) stars.push({ x: Math.random()*canvas.width-canvas.width/2, y: Math.random()*canvas.height-canvas.height/2, z: Math.random()*canvas.width, o: Math.random() }); }
-        function drawStars() { ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height); for(let s of stars) { s.z -= 3; if (s.z <= 0) s.z = canvas.width; let x = (s.x / s.z) * canvas.width + canvas.width/2; let y = (s.y / s.z) * canvas.height + canvas.height/2; let r = (1 - s.z/canvas.width) * 2; ctx.beginPath(); ctx.fillStyle = `rgba(255, 255, 255, ${s.o})`; ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill(); } requestAnimationFrame(drawStars); }
+        function initStars() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            stars = [];
+            for(let i=0; i<400; i++) stars.push({ x: Math.random()*canvas.width-canvas.width/2, y: Math.random()*canvas.height-canvas.height/2, z: Math.random()*canvas.width, o: Math.random() });
+        }
+        function drawStars() {
+            ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for(let s of stars) {
+                s.z -= 3; if (s.z <= 0) s.z = canvas.width;
+                let x = (s.x / s.z) * canvas.width + canvas.width/2;
+                let y = (s.y / s.z) * canvas.height + canvas.height/2;
+                let r = (1 - s.z/canvas.width) * 2;
+                ctx.beginPath(); ctx.fillStyle = `rgba(255, 255, 255, ${s.o})`; ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+            }
+            requestAnimationFrame(drawStars);
+        }
         window.addEventListener('resize', initStars); initStars(); drawStars();
     </script>
 </body>
