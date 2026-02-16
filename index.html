@@ -7,113 +7,103 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
+        :root {
+            --gold: #FFD700;
+            --bg-black: #000;
+            --smoke-white: rgba(255, 255, 255, 0.15);
+            --smoke-gray: rgba(100, 100, 100, 0.2);
+        }
+
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000; font-family: 'Orbitron', sans-serif;
-            color: white; overflow-x: hidden;
+            background-color: var(--bg-black); font-family: 'Orbitron', sans-serif;
+            color: white; overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        /* --- خلفية الغيوم والبرق (التركيز هنا) --- */
-        #sky-background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; overflow: hidden;
-            background: linear-gradient(to bottom, #000 0%, #111 50%, #000 100%);
+        /* --- تأثيرات الخلفية (البرق والغيوم) --- */
+        #background-fx { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        
+        /* ومضات البرق */
+        .lightning-flash {
+            position: absolute; width: 100%; height: 100%; background: #fff; opacity: 0;
+            animation: lightningAnim 5s infinite;
+        }
+        @keyframes lightningAnim {
+            0%, 90%, 94%, 100% { opacity: 0; }
+            92% { opacity: 0.4; }
+            93% { opacity: 0.1; }
+            95% { opacity: 0.5; }
         }
 
-        /* طبقة الغيوم */
-        .clouds {
-            position: absolute; top: 0; left: 0; width: 300%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'), 
-                        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 80%);
-            opacity: 0.4;
-            animation: moveClouds 100s linear infinite;
-            filter: blur(2px);
+        /* الغيوم السينمائية */
+        .cinematic-clouds {
+            position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            background-color: rgba(20, 20, 20, 0.8);
+            filter: blur(10px); opacity: 0.5;
+            animation: moveClouds 40s linear infinite;
         }
+        @keyframes moveClouds { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        @keyframes moveClouds {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* تأثير البرق (Flash) */
-        .lightning-bolt {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; opacity: 0; z-index: 2; pointer-events: none;
-        }
-
-        .lightning-active {
-            animation: lightningFlash 4s infinite;
-        }
-
-        @keyframes lightningFlash {
-            0%, 92%, 97%, 100% { opacity: 0; }
-            93% { opacity: 0.6; }
-            95% { opacity: 0.2; }
-            96% { opacity: 0.8; }
-        }
-
-        /* ---------------------------------- */
-
-        .page {
-            position: relative; z-index: 10; width: 100%; min-height: 100vh;
-            display: none; flex-direction: column; align-items: center; padding: 40px 20px;
-        }
-
-        .active { display: flex; animation: fadeIn 0.8s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* اللوجو النابض والدوار */
+        /* --- اللوجو النابض والدوار --- */
         .dynamic-logo {
-            width: 180px; height: auto;
+            width: 150px; height: auto; margin-bottom: 20px;
             animation: rotate360 10s linear infinite, pulseGlow 3s ease-in-out infinite;
-            perspective: 1000px;
         }
-
         @keyframes rotate360 { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-        @keyframes pulseGlow {
+        @keyframes pulseGlow { 
             0%, 100% { filter: drop-shadow(0 0 10px white); transform: scale(1); }
             50% { filter: drop-shadow(0 0 30px white); transform: scale(1.05); }
         }
 
+        /* اللوجو الصغير أعلى اليمين */
         .mini-logo-fixed {
-            position: fixed; top: 20px; right: 20px;
-            width: 55px; z-index: 100; display: none;
-            filter: drop-shadow(0 0 10px white);
+            position: fixed; top: 20px; right: 20px; width: 50px; z-index: 100;
+            filter: drop-shadow(0 0 10px white); display: none;
         }
 
-        .splash-content { justify-content: center; height: 100vh; gap: 40px; }
-        .store-name { font-size: 2.2rem; font-weight: 900; letter-spacing: 12px; text-shadow: 0 0 15px white; }
-        
+        /* --- باقي الكود كما هو بدون أي تغيير --- */
+        #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+        .page { position: relative; z-index: 10; width: 100%; min-height: 100vh; display: none; flex-direction: column; align-items: center; padding: 40px 20px; box-sizing: border-box; }
+        .active { display: flex; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .splash-content { justify-content: space-between; height: 100vh; }
+        .store-name { font-size: 2rem; font-weight: 900; letter-spacing: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.3); margin-top: 10px; }
         .main-menu { display: flex; flex-direction: column; gap: 30px; text-align: center; }
-        .menu-item { font-size: 1.6rem; letter-spacing: 8px; cursor: pointer; opacity: 0.6; transition: 0.4s; }
-        .menu-item:hover { opacity: 1; text-shadow: 0 0 20px white; transform: scale(1.1); }
+        .menu-item { font-size: 1.5rem; letter-spacing: 8px; cursor: pointer; opacity: 0.7; transition: 0.3s; }
+        .menu-item:hover { opacity: 1; text-shadow: 0 0 15px white; transform: scale(1.1); }
 
-        /* الكتالوج */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; width: 100%; max-width: 1100px; margin-top: 50px; }
-        .product-card {
-            background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px; border-radius: 15px; backdrop-filter: blur(10px); cursor: pointer; transition: 0.3s;
-        }
-        .product-card:hover { border-color: white; transform: translateY(-5px); }
-        .img-box { width: 100%; aspect-ratio: 1; object-fit: contain; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; width: 100%; max-width: 1100px; margin-top: 40px; }
+        .product-card { background: rgba(255, 255, 255, 0.03); border-radius: 15px; padding: 20px; transition: 0.4s; cursor: pointer; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); }
+        .product-card:hover { border-color: white; transform: translateY(-10px); }
+        .img-box { width: 100%; aspect-ratio: 1/1; object-fit: contain; }
 
-        .back-link { align-self: flex-start; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
-
-        .btn-buy { background: white; color: black; padding: 15px 40px; border: none; font-weight: 900; cursor: pointer; width: 100%; margin-top: 20px; }
+        .detail-container { display: flex; flex-wrap: wrap; gap: 50px; max-width: 1000px; width: 100%; margin-top: 50px; justify-content: center; align-items: center; }
+        .detail-img { flex: 1; min-width: 300px; max-width: 450px; aspect-ratio: 1/1; object-fit: contain; filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4)); animation: floatImg 6s ease-in-out infinite; }
+        @keyframes floatImg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .detail-info { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; background: rgba(20, 20, 20, 0.6); padding: 30px; border-radius: 20px; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-buy { background: white; color: black; padding: 16px; border: none; font-weight: bold; cursor: pointer; }
+        .back-link { align-self: flex-start; cursor: pointer; color: white; margin-bottom: 20px; font-weight: bold; z-index: 5; }
+        .footer-bar { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: auto; padding-bottom: 30px; width: 100%; }
+        .social-bar { display: flex; gap: 25px; }
+        .social-link svg { width: 22px; fill: white; opacity: 0.6; }
     </style>
 </head>
 <body>
 
-    <div id="sky-background">
-        <div class="clouds"></div>
-        <div class="lightning-bolt lightning-active"></div>
+    <div id="background-fx">
+        <div class="cinematic-clouds"></div>
+        <div class="lightning-flash"></div>
     </div>
 
-    <img src="" id="topRightLogo" class="mini-logo-fixed">
+    <canvas id="starfield"></canvas>
+    
+    <img src="https://i.ibb.co/XRTF1pS7/1000267202.png" id="miniLogo" class="mini-logo-fixed">
 
     <div id="splashPage" class="page splash-content active">
         <div style="text-align: center;">
-            <img src="" id="mainHeroLogo" class="dynamic-logo">
+            <img src="https://i.ibb.co/XRTF1pS7/1000267202.png" class="dynamic-logo">
             <div class="store-name">X STORE</div>
         </div>
         <nav class="main-menu">
@@ -121,26 +111,26 @@
             <div class="menu-item" onclick="navigateTo('catalogPage')">CATALOG</div>
             <div class="menu-item">CONTACT</div>
         </nav>
+        <div class="footer-bar">
+            <div class="social-bar">
+                <a href="https://www.instagram.com/xce____7oda__x?igsh=cmI5aXd4OHp1cDhl" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="https://www.tiktok.com/@628..2?_r=1&_t=ZS-93ujRpfUhj2" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.65-1.55-1.09-.01 2.83.03 5.66-.02 8.5-.16 2.61-2.14 4.86-4.73 5.37-2.67.55-5.5-1.09-6.18-3.69-.69-2.58 1.25-5.22 3.93-5.32v4.02c-1.23-.05-2.26 1.18-2.03 2.43.21 1.16 1.47 1.83 2.52 1.46 1.15-.36 1.84-1.58 1.68-2.78-.05-4.46-.02-8.91-.03-13.37-.01-1.63-.01-3.26-.01-4.89-.84.23-1.69.45-2.54.67-.01-.13-.02-.27-.03-.4 1.05-.29 2.1-.58 3.16-.89z"/></svg></a>
+            </div>
+        </div>
     </div>
 
     <div id="catalogPage" class="page">
         <div class="back-link" onclick="history.back()">← BACK</div>
-        <h1 style="letter-spacing: 10px;">COLLECTIONS</h1>
+        <div class="store-name" style="font-size: 1.5rem;">COLLECTIONS</div>
         <div class="products-grid" id="productsGrid"></div>
     </div>
 
     <div id="productDetailPage" class="page">
         <div class="back-link" onclick="history.back()">← BACK</div>
-        <div id="productDetailContent" style="max-width: 900px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: center; margin-top: 50px;"></div>
+        <div class="detail-container" id="productDetailContent"></div>
     </div>
 
     <script>
-        // رابط اللوجو الخاص بك
-        const myLogoURL = "https://i.ibb.co/XRTF1pS7/1000267202.png"; 
-
-        document.getElementById('mainHeroLogo').src = myLogoURL;
-        document.getElementById('topRightLogo').src = myLogoURL;
-
         const products = [
             { id: 1, name: "UNIVERSITY HOODIE", price: "999.00", img: "Picsart_26-02-14_16-25-30-082.png" },
             { id: 2, name: "RASPBERRY SWEAT", price: "850.00", img: "Picsart_26-02-14_16-25-05-041.png" },
@@ -148,17 +138,21 @@
             { id: 4, name: "AMAZING OVERSIZE", price: "750.00", img: "Picsart_26-02-13_22-03-08-041.png" }
         ];
 
+        const whatsappNumber = "201000000000";
+
+        // إدارة التنقل
+        window.addEventListener('load', () => history.replaceState({page: 'splashPage'}, "", "#splashPage"));
+        window.onpopstate = (e) => renderPage(e.state ? e.state.page : 'splashPage');
+
         function navigateTo(pageId) {
             history.pushState({page: pageId}, "", "#" + pageId);
             renderPage(pageId);
         }
 
-        window.onpopstate = (e) => renderPage(e.state ? e.state.page : 'splashPage');
-
         function renderPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            document.getElementById('topRightLogo').style.display = (pageId === 'splashPage') ? 'none' : 'block';
+            document.getElementById('miniLogo').style.display = (pageId === 'splashPage') ? 'none' : 'block';
             window.scrollTo(0,0);
         }
 
@@ -166,20 +160,24 @@
         products.forEach(p => {
             const card = document.createElement('div');
             card.className = 'product-card';
-            card.onclick = () => {
-                document.getElementById('productDetailContent').innerHTML = `
-                    <img src="${p.img}" style="width: 100%; max-width: 400px; filter: drop-shadow(0 0 20px white);">
-                    <div style="flex: 1; min-width: 300px; background: rgba(0,0,0,0.8); padding: 30px; border-radius: 20px; border: 1px solid #333;">
-                        <h2>${p.name}</h2>
-                        <p style="font-size: 1.5rem; margin: 15px 0;">LE ${p.price}</p>
-                        <button class="btn-buy" onclick="window.open('https://wa.me/201000000000')">ORDER NOW</button>
-                    </div>
-                `;
-                navigateTo('productDetailPage');
-            };
-            card.innerHTML = `<img src="${p.img}" class="img-box" onerror="this.src='https://placehold.co/400'"><h3>${p.name}</h3>`;
+            card.onclick = () => openProduct(p);
+            card.innerHTML = `<img src="${p.img}" class="img-box" onerror="this.src='https://placehold.co/400'"><div style="margin-top:15px; font-weight:bold;">${p.name}</div><div style="color:#ccc; margin-top:5px;">LE ${p.price}</div>`;
             grid.appendChild(card);
         });
+
+        function openProduct(product) {
+            const detailBox = document.getElementById('productDetailContent');
+            detailBox.innerHTML = `<img src="${product.img}" class="detail-img"><div class="detail-info"><h1>${product.name}</h1><div style="font-size:1.8rem; font-weight:bold;">LE ${product.price} EGP</div><p>High-end streetwear fabric, handcrafted for X STORE.</p><button class="btn-buy" onclick="window.open('https://wa.me/${whatsappNumber}')">BUY NOW (WHATSAPP)</button></div>`;
+            navigateTo('productDetailPage');
+        }
+
+        // كود النجوم الأصلي بتاعك
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function initStars() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; stars = []; for(let i=0; i<400; i++) stars.push({ x: Math.random()*canvas.width-canvas.width/2, y: Math.random()*canvas.height-canvas.height/2, z: Math.random()*canvas.width, o: Math.random() }); }
+        function drawStars() { ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height); for(let s of stars) { s.z -= 3; if (s.z <= 0) s.z = canvas.width; let x = (s.x / s.z) * canvas.width + canvas.width/2; let y = (s.y / s.z) * canvas.height + canvas.height/2; let r = (1 - s.z/canvas.width) * 2; ctx.beginPath(); ctx.fillStyle = `rgba(255, 255, 255, ${s.o})`; ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill(); } requestAnimationFrame(drawStars); }
+        window.addEventListener('resize', initStars); initStars(); drawStars();
     </script>
 </body>
 </html>
