@@ -1,202 +1,185 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hoda Store</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-<style>
-/* ======================== Reset ======================== */
-* { margin:0; padding:0; box-sizing:border-box; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X STORE | Official Experience</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
-/* ======================== Body ======================== */
-body, html {
-  height: 100%;
-  font-family: 'Cairo', sans-serif;
-  color: #fff;
-  background: black;
-  overflow-x: hidden;
-}
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #000; font-family: 'Orbitron', sans-serif;
+            color: white; overflow-x: hidden;
+        }
 
-/* ======================== Navbar ======================== */
-nav {
-  display:flex;
-  justify-content: space-between;
-  align-items:center;
-  padding: 15px 30px;
-  background: rgba(0,0,0,0.7);
-  position: sticky;
-  top:0;
-  z-index: 100;
-}
-nav .logo-text { font-size:1.8rem; font-weight:700; }
-nav ul { display:flex; list-style:none; gap:20px; }
-nav ul li a { color:#fff; transition:0.3s; }
-nav ul li a:hover { color:#ffcc00; }
+        /* --- خلفية الغيوم والبرق (التركيز هنا) --- */
+        #sky-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; overflow: hidden;
+            background: linear-gradient(to bottom, #000 0%, #111 50%, #000 100%);
+        }
 
-/* ======================== Hero ======================== */
-.hero {
-  text-align:center;
-  padding: 100px 20px;
-  position: relative;
-  z-index: 2;
-}
-.hero h1 { font-size:3rem; margin-bottom:20px; }
-.hero p { font-size:1.2rem; margin-bottom:30px; }
-.btn {
-  padding:12px 25px;
-  background-color:#ff0000;
-  color:#fff;
-  font-weight:700;
-  border-radius:5px;
-  transition:0.3s;
-}
-.btn:hover { background-color:#ffcc00; color:#000; cursor:pointer; }
+        /* طبقة الغيوم */
+        .clouds {
+            position: absolute; top: 0; left: 0; width: 300%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'), 
+                        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 80%);
+            opacity: 0.4;
+            animation: moveClouds 100s linear infinite;
+            filter: blur(2px);
+        }
 
-/* ======================== Products ======================== */
-.products-container {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:25px;
-  padding:40px 20px;
-  position: relative;
-  z-index: 2;
-}
-.product {
-  background-color: rgba(0,0,0,0.6);
-  border-radius:10px;
-  padding:20px;
-  width:220px;
-  text-align:center;
-  transition:0.3s;
-}
-.product:hover { transform: scale(1.05); }
-.product img { width:200px; height:250px; object-fit:contain; border-radius:10px; position: relative; z-index:2; }
-.product h3 { margin:15px 0 5px; }
-.product p { margin:0; }
+        @keyframes moveClouds {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
 
-/* ======================== Contact ======================== */
-#contact { text-align:center; padding:40px 20px; position: relative; z-index:2; }
+        /* تأثير البرق (Flash) */
+        .lightning-bolt {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; opacity: 0; z-index: 2; pointer-events: none;
+        }
 
-/* ======================== Logo ======================== */
-#logo {
-  position:absolute;
-  width:120px;
-  height:120px;
-  top:50px;
-  left:50%;
-  transform: translateX(-50%) rotate(0deg);
-  transition: transform 0.1s linear;
-  z-index:200;
-  cursor:pointer;
-}
+        .lightning-active {
+            animation: lightningFlash 4s infinite;
+        }
 
-/* ======================== Stars ======================== */
-#stars {
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index: 1;
-}
-</style>
+        @keyframes lightningFlash {
+            0%, 92%, 97%, 100% { opacity: 0; }
+            93% { opacity: 0.6; }
+            95% { opacity: 0.2; }
+            96% { opacity: 0.8; }
+        }
+
+        /* ---------------------------------- */
+
+        .page {
+            position: relative; z-index: 10; width: 100%; min-height: 100vh;
+            display: none; flex-direction: column; align-items: center; padding: 40px 20px;
+        }
+
+        .active { display: flex; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* اللوجو النابض والدوار */
+        .dynamic-logo {
+            width: 180px; height: auto;
+            animation: rotate360 10s linear infinite, pulseGlow 3s ease-in-out infinite;
+            perspective: 1000px;
+        }
+
+        @keyframes rotate360 { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px white); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 30px white); transform: scale(1.05); }
+        }
+
+        .mini-logo-fixed {
+            position: fixed; top: 20px; right: 20px;
+            width: 55px; z-index: 100; display: none;
+            filter: drop-shadow(0 0 10px white);
+        }
+
+        .splash-content { justify-content: center; height: 100vh; gap: 40px; }
+        .store-name { font-size: 2.2rem; font-weight: 900; letter-spacing: 12px; text-shadow: 0 0 15px white; }
+        
+        .main-menu { display: flex; flex-direction: column; gap: 30px; text-align: center; }
+        .menu-item { font-size: 1.6rem; letter-spacing: 8px; cursor: pointer; opacity: 0.6; transition: 0.4s; }
+        .menu-item:hover { opacity: 1; text-shadow: 0 0 20px white; transform: scale(1.1); }
+
+        /* الكتالوج */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; width: 100%; max-width: 1100px; margin-top: 50px; }
+        .product-card {
+            background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; border-radius: 15px; backdrop-filter: blur(10px); cursor: pointer; transition: 0.3s;
+        }
+        .product-card:hover { border-color: white; transform: translateY(-5px); }
+        .img-box { width: 100%; aspect-ratio: 1; object-fit: contain; }
+
+        .back-link { align-self: flex-start; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
+
+        .btn-buy { background: white; color: black; padding: 15px 40px; border: none; font-weight: 900; cursor: pointer; width: 100%; margin-top: 20px; }
+    </style>
 </head>
 <body>
 
-<!-- ======================== Stars Canvas ======================== -->
-<canvas id="stars"></canvas>
-
-<!-- ======================== Logo ======================== -->
-<img id="logo" src="https://raw.githubusercontent.com/mahmoudhatem78/mahmoudhatem78.github.io/main/f9618777aaaf1b3ada4aee260565043b.jpg" alt="Hoda Store Logo">
-
-<!-- ======================== Navbar ======================== -->
-<nav>
-  <div class="logo-text">Hoda Store</div>
-  <ul>
-    <li><a href="#home">الرئيسية</a></li>
-    <li><a href="#products">المنتجات</a></li>
-    <li><a href="#contact">تواصل معنا</a></li>
-  </ul>
-</nav>
-
-<!-- ======================== Hero ======================== -->
-<section id="home" class="hero">
-  <h1>مرحبا بكم في Hoda Store</h1>
-  <p>متجر الملابس العصري</p>
-  <a href="#products" class="btn">تسوق الآن</a>
-</section>
-
-<!-- ======================== Products ======================== -->
-<section id="products">
-  <h2 style="text-align:center;">منتجاتنا</h2>
-  <div class="products-container">
-    <div class="product">
-      <a href="shirt1.html">
-        <div style="position: relative; display:inline-block; width:200px; height:250px;">
-          <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:220px; height:250px; background:radial-gradient(circle, rgba(255,200,0,0.4) 0%, rgba(255,200,0,0) 70%); border-radius:50%; filter:blur(20px); z-index:1;"></div>
-          <img src="Picsart_26-02-13_22-03-08-041.png" alt="تيشيرت عصري" loading="lazy">
-        </div>
-      </a>
-      <h3>تيشيرت عصري</h3>
-      <p>600 جنيه</p>
+    <div id="sky-background">
+        <div class="clouds"></div>
+        <div class="lightning-bolt lightning-active"></div>
     </div>
-    <!-- ممكن تضيف منتجات إضافية بنفس الطريقة -->
-  </div>
-</section>
 
-<!-- ======================== Contact ======================== -->
-<section id="contact">
-  <h2>تواصل معنا</h2>
-  <p>البريد الإلكتروني: ahmghytu@gmail.com</p>
-  <p>الهاتف: +20 100 000 0000</p>
-</section>
+    <img src="" id="topRightLogo" class="mini-logo-fixed">
 
-<!-- ======================== Stars Script ======================== -->
-<script>
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    <div id="splashPage" class="page splash-content active">
+        <div style="text-align: center;">
+            <img src="" id="mainHeroLogo" class="dynamic-logo">
+            <div class="store-name">X STORE</div>
+        </div>
+        <nav class="main-menu">
+            <div class="menu-item" onclick="navigateTo('catalogPage')">HOME</div>
+            <div class="menu-item" onclick="navigateTo('catalogPage')">CATALOG</div>
+            <div class="menu-item">CONTACT</div>
+        </nav>
+    </div>
 
-const numStars = 150;
-const stars = [];
-for (let i=0;i<numStars;i++){
-    stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*1.5, speed:0.2+Math.random()*0.3});
-}
+    <div id="catalogPage" class="page">
+        <div class="back-link" onclick="history.back()">← BACK</div>
+        <h1 style="letter-spacing: 10px;">COLLECTIONS</h1>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
 
-function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle="white";
-    ctx.shadowColor="white";
-    ctx.shadowBlur=5;
-    for(let i=0;i<numStars;i++){
-        let s = stars[i];
-        ctx.beginPath();
-        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-        ctx.fill();
-        s.x += s.speed;
-        if(s.x>canvas.width) s.x=0;
-    }
-    requestAnimationFrame(draw);
-}
-draw();
-window.addEventListener('resize',()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
-</script>
+    <div id="productDetailPage" class="page">
+        <div class="back-link" onclick="history.back()">← BACK</div>
+        <div id="productDetailContent" style="max-width: 900px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: center; margin-top: 50px;"></div>
+    </div>
 
-<!-- ======================== Logo Follow Mouse ======================== -->
-<script>
-const logo = document.getElementById('logo');
-document.addEventListener('mousemove', e => {
-  const centerX = window.innerWidth/2;
-  const centerY = window.innerHeight/2;
-  const deltaX = e.clientX - centerX;
-  const deltaY = e.clientY - centerY;
-  const angle = Math.atan2(deltaY, deltaX)*(180/Math.PI)+90;
-  logo.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-});
-</script>
+    <script>
+        // رابط اللوجو الخاص بك
+        const myLogoURL = "https://i.ibb.co/XRTF1pS7/1000267202.png"; 
 
+        document.getElementById('mainHeroLogo').src = myLogoURL;
+        document.getElementById('topRightLogo').src = myLogoURL;
+
+        const products = [
+            { id: 1, name: "UNIVERSITY HOODIE", price: "999.00", img: "Picsart_26-02-14_16-25-30-082.png" },
+            { id: 2, name: "RASPBERRY SWEAT", price: "850.00", img: "Picsart_26-02-14_16-25-05-041.png" },
+            { id: 3, name: "NY BLACK EDITION", price: "999.00", img: "Picsart_26-02-14_16-24-39-633.png" },
+            { id: 4, name: "AMAZING OVERSIZE", price: "750.00", img: "Picsart_26-02-13_22-03-08-041.png" }
+        ];
+
+        function navigateTo(pageId) {
+            history.pushState({page: pageId}, "", "#" + pageId);
+            renderPage(pageId);
+        }
+
+        window.onpopstate = (e) => renderPage(e.state ? e.state.page : 'splashPage');
+
+        function renderPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('topRightLogo').style.display = (pageId === 'splashPage') ? 'none' : 'block';
+            window.scrollTo(0,0);
+        }
+
+        const grid = document.getElementById('productsGrid');
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.onclick = () => {
+                document.getElementById('productDetailContent').innerHTML = `
+                    <img src="${p.img}" style="width: 100%; max-width: 400px; filter: drop-shadow(0 0 20px white);">
+                    <div style="flex: 1; min-width: 300px; background: rgba(0,0,0,0.8); padding: 30px; border-radius: 20px; border: 1px solid #333;">
+                        <h2>${p.name}</h2>
+                        <p style="font-size: 1.5rem; margin: 15px 0;">LE ${p.price}</p>
+                        <button class="btn-buy" onclick="window.open('https://wa.me/201000000000')">ORDER NOW</button>
+                    </div>
+                `;
+                navigateTo('productDetailPage');
+            };
+            card.innerHTML = `<img src="${p.img}" class="img-box" onerror="this.src='https://placehold.co/400'"><h3>${p.name}</h3>`;
+            grid.appendChild(card);
+        });
+    </script>
 </body>
-  </html>
+</html>
