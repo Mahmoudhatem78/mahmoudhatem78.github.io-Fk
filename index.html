@@ -1,381 +1,262 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Streetwear Space Theme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة رمضان الخير</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- الأساسيات --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Courier New', Courier, monospace; /* خط يشبه الفيديو */
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --primary-gold: #ffcc00;
+            --dark-blue: #0a192f;
+            --accent-blue: #172a45;
+            --text-white: #e6f1ff;
         }
 
         body {
-            background-color: #050505;
-            color: #fff;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark-blue), #020c1b);
+            color: var(--text-white);
+            text-align: center;
             overflow-x: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* --- خلفية النجوم (تأثير الفضاء) --- */
+        /* تصميم الخلفية والنجوم */
         .stars {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000 url('https://www.transparenttextures.com/patterns/stardust.png');
             z-index: -1;
-            opacity: 0.8;
-            animation: moveBackground 100s linear infinite;
-        }
-        
-        /* إضافة نجوم لامعة بالكود */
-        .twinkling {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: -1;
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-            background-size: 550px 550px, 350px 350px, 250px 250px;
-            background-position: 0 0, 40px 60px, 130px 270px;
+            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
         }
 
-        @keyframes moveBackground {
-            from {background-position: 0 0;}
-            to {background-position: 1000px 1000px;}
+        /* الهيدر */
+        header {
+            padding: 50px 20px;
+            background: rgba(23, 42, 69, 0.7);
+            border-bottom: 3px solid var(--primary-gold);
+            animation: fadeIn 2s ease-in;
         }
 
-        /* --- الشعار --- */
-        .logo {
-            text-align: center;
-            padding: 40px 0 20px;
+        h1 {
+            font-family: 'Amiri', serif;
+            font-size: 3.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        /* كارت المحتوى المتغير */
+        .dynamic-card {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 30px auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(0);
+            transition: 0.5s;
+        }
+
+        .dynamic-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--primary-gold);
+            display: inline-block;
+        }
+
+        .content-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            line-height: 1.6;
+        }
+
+        /* أقسام الموقع */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .card {
+            background: var(--accent-blue);
+            padding: 20px;
+            border-radius: 15px;
+            border-right: 5px solid var(--primary-gold);
+        }
+
+        /* عداد تنازلي */
+        #countdown {
             font-size: 2rem;
             font-weight: bold;
-            letter-spacing: 5px;
-            cursor: pointer;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            color: var(--primary-gold);
+            margin: 20px 0;
         }
 
-        /* --- القائمة الرئيسية (Home View) --- */
-        #home-view {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        .menu-item {
-            font-size: 1.5rem;
-            margin: 15px 0;
+        .btn {
+            background: var(--primary-gold);
+            color: var(--dark-blue);
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase;
-            font-weight: 900;
-            letter-spacing: 2px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
             transition: 0.3s;
         }
 
-        .menu-item:hover {
-            text-shadow: 0 0 15px #fff;
+        .btn:hover {
+            background: #fff;
             transform: scale(1.1);
         }
 
-        /* --- الكتالوج (Catalog View) --- */
-        #catalog-view {
-            display: none;
-            padding: 20px;
-            padding-bottom: 80px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .nav-back {
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            cursor: pointer;
-            color: #888;
-            text-decoration: underline;
+        footer {
+            padding: 30px;
+            background: #020c1b;
+            color: var(--primary-gold);
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* عمودين للموبايل */
-            gap: 15px;
+        .lantern {
+            width: 100px;
+            animation: swing 3s infinite ease-in-out;
         }
 
-        .product-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            position: relative;
-            cursor: pointer;
+        @keyframes swing {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
         }
-
-        .product-img {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1/1;
-            background-color: #222; /* لون مؤقت مكان الصورة */
-            border-radius: 5px;
-            margin-bottom: 10px;
-            object-fit: cover;
-            /* فلتر لجعل الصور تبدو قديمة/داكنة مثل الفيديو */
-            filter: contrast(1.2) brightness(0.9);
-        }
-
-        .sold-out-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #fff;
-            color: #000;
-            font-size: 0.7rem;
-            padding: 2px 5px;
-            font-weight: bold;
-            border-radius: 3px;
-        }
-
-        .price {
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-top: 5px;
-        }
-
-        /* --- صفحة المنتج التفصيلية (Modal) --- */
-        #product-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 100;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .modal-content {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .modal-img {
-            width: 80%;
-            max-width: 400px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
-        }
-
-        .product-title {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .product-price {
-            font-size: 1.2rem;
-            color: #888;
-            margin-bottom: 20px;
-        }
-
-        .size-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .size-btn {
-            background: transparent;
-            border: 1px solid #555;
-            color: #fff;
-            padding: 10px 15px;
-            cursor: pointer;
-        }
-        
-        .size-btn.active {
-            background: #fff;
-            color: #000;
-        }
-
-        .add-btn {
-            width: 100%;
-            max-width: 400px;
-            background: #fff;
-            color: #000;
-            padding: 15px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 10px;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        /* تأثيرات إضافية */
-        .scanline {
-            width: 100%;
-            height: 100px;
-            z-index: 10;
-            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(0,0,0,0) 100%);
-            opacity: 0.1;
-            position: fixed;
-            bottom: 100%;
-            animation: scanline 10s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes scanline {
-            0% {bottom: 100%;}
-            100% {bottom: -100px;}
-        }
-
     </style>
 </head>
 <body>
 
     <div class="stars"></div>
-    <div class="twinkling"></div>
-    <div class="scanline"></div>
 
-    <div class="logo" onclick="goHome()">BRAND®</div>
+    <header>
+        <img src="https://cdn-icons-png.flaticon.com/512/2274/2274714.png" class="lantern" alt="فانوس">
+        <h1>رمضان مبارك</h1>
+        <p>مرحباً بك في بوابتك الإيمانية اليومية</p>
+        <div id="countdown">متنسوناش بدعوه حلوه...</div>
+    </header>
 
-    <div id="home-view">
-        <div class="menu-item" onclick="showCatalog()">HOME</div>
-        <div class="menu-item" onclick="showCatalog()">CATALOG</div>
-        <div class="menu-item">CONTACT</div>
-    </div>
+    <section class="dynamic-card">
+        <div id="daily-content">
+            <div class="section-title">✨ آية رمضانية مختارة لك ✨</div>
+            <p id="quran-verse" class="content-text">"شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ"</p>
+            
+            <div class="section-title">📿 ذكر اليوم 📿</div>
+            <p id="daily-dhikr" class="content-text">سبحان الله وبحمده، سبحان الله العظيم</p>
 
-    <div id="catalog-view">
-        <div class="nav-back" onclick="goHome()">← BACK HOME</div>
-        
-        <div class="grid">
-            <div class="product-card" onclick="openProduct('Vintage Hoodie 01', '999.00 EGP', 'https://via.placeholder.com/400x400/222/fff?text=HOODIE+1')">
-                <div class="sold-out-badge">SOLD OUT</div>
-                <img src="https://via.placeholder.com/400x400/222/fff?text=HOODIE+1" class="product-img">
-                <div>VINTAGE WASH</div>
-                <div class="price">LE 999.00 EGP</div>
-            </div>
-
-            <div class="product-card" onclick="openProduct('University Zip', '1200.00 EGP', 'https://via.placeholder.com/400x400/333/fff?text=HOODIE+2')">
-                <img src="https://via.placeholder.com/400x400/333/fff?text=HOODIE+2" class="product-img">
-                <div>UNIVERSITY ZIP</div>
-                <div class="price">LE 1200.00 EGP</div>
-            </div>
-
-            <div class="product-card" onclick="openProduct('Star Jacket', '1500.00 EGP', 'https://via.placeholder.com/400x400/111/fff?text=JACKET')">
-                <div class="sold-out-badge">SOLD OUT</div>
-                <img src="https://via.placeholder.com/400x400/111/fff?text=JACKET" class="product-img">
-                <div>STAR JACKET</div>
-                <div class="price">LE 1500.00 EGP</div>
-            </div>
-             <div class="product-card" onclick="openProduct('Skull Tee', '600.00 EGP', 'https://via.placeholder.com/400x400/000/fff?text=TEE')">
-                <img src="https://via.placeholder.com/400x400/000/fff?text=TEE" class="product-img">
-                <div>SKULL TEE</div>
-                <div class="price">LE 600.00 EGP</div>
-            </div>
+            <div class="section-title">💡 نصيحة اليوم 💡</div>
+            <p id="daily-tip" class="content-text">اجعل لنفسك ورداً ثابتاً من القرآن الكريم اليوم.</p>
         </div>
-    </div>
+        <button class="btn" onclick="refreshContent()">تغيير المحتوى الآن 🔄</button>
+    </section>
 
-    <div id="product-modal">
-        <div class="close-modal" onclick="closeProduct()">×</div>
-        <div class="modal-content">
-            <img id="modal-img" src="" class="modal-img">
-            <div id="modal-title" class="product-title">PRODUCT NAME</div>
-            <div id="modal-price" class="product-price">PRICE</div>
-
-            <div class="size-selector">
-                <button class="size-btn">S</button>
-                <button class="size-btn active">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-            </div>
-
-            <button class="add-btn">ADD TO CART</button>
-            <br>
-            <p style="font-size: 0.8rem; color: #666;">Ships in 3-5 business days.</p>
+    <main class="grid-container">
+        <div class="card">
+            <h3>📖 المصحف الإلكتروني</h3>
+            <p>تصفح القرآن الكريم كاملاً مع التفسير.</p>
+            <a href="https://quran.com/ar" target="_blank" class="btn">ابدأ القراءة</a>
         </div>
-    </div>
+
+        <div class="card">
+            <h3>🕌 أذكار الصباح والمساء</h3>
+            <p>حصن نفسك بالأذكار اليومية الصحيحة.</p>
+            <a href="https://www.azkardua.com/" target="_blank" class="btn">قراءة الأذكار</a>
+        </div>
+
+        <div class="card">
+            <h3>📅 جدول رمضان</h3>
+            <p>نظم وقتك بين العبادة والعمل والراحة.</p>
+            <button class="btn" onclick="alert('خطط لختم القرآن مرة واحدة على الأقل بالالتزام بـ 4 صفحات بعد كل صلاة!')">عرض نصيحة التنظيم</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>تم البرمجة بكل حب لخدمة الصائمين ✨ 2024</p>
+    </footer>
 
     <script>
-        // المتغيرات للتحكم في العناصر
-        const homeView = document.getElementById('home-view');
-        const catalogView = document.getElementById('catalog-view');
-        const productModal = document.getElementById('product-modal');
+        // مصفوفات البيانات المتغيرة
+        const verses = [
+            "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ",
+            "يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ كَمَا كُتِبَ عَلَى الَّذِينَ مِن قَبْلِكُمْ لَعَلَّكُمْ تَتَّقُونَ",
+            "وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ",
+            "لَيْلَةُ الْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ",
+            "وَبِالْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ"
+        ];
 
-        // وظيفة لإظهار الكتالوج وإخفاء الرئيسية
-        function showCatalog() {
-            homeView.style.opacity = '0';
-            setTimeout(() => {
-                homeView.style.display = 'none';
-                catalogView.style.display = 'block';
-                setTimeout(() => {
-                    catalogView.style.opacity = '1';
-                }, 50);
-            }, 500);
+        const dhikr = [
+            "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير",
+            "اللهم إنك عفو كريم تحب العفو فاعفُ عني",
+            "أستغفر الله العظيم وأتوب إليه",
+            "اللهم صلِّ وسلم على نبينا محمد",
+            "لا حول ولا قوة إلا بالله العلي العظيم"
+        ];
+
+        const tips = [
+            "حاول ختم القرآن الكريم في هذا الشهر الفضيل.",
+            "لا تنسَ نصيبك من صلاة التراويح والقيام.",
+            "الصدقة في رمضان أجرها مضاعف، بادر بها.",
+            "اجعل لسانك رطباً بذكر الله أثناء تحضير الإفطار.",
+            "قلل من استخدام الهاتف لزيادة التركيز في العبادة."
+        ];
+
+        // دالة تغيير المحتوى
+        function refreshContent() {
+            const randomVerse = verses[Math.floor(Math.random() * verses.length)];
+            const randomDhikr = dhikr[Math.floor(Math.random() * dhikr.length)];
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+
+            document.getElementById('quran-verse').innerText = `"${randomVerse}"`;
+            document.getElementById('daily-dhikr').innerText = randomDhikr;
+            document.getElementById('daily-tip').innerText = randomTip;
         }
 
-        // وظيفة للعودة للرئيسية
-        function goHome() {
-            catalogView.style.opacity = '0';
-            closeProduct(); // إغلاق المنتج إذا كان مفتوحاً
-            setTimeout(() => {
-                catalogView.style.display = 'none';
-                homeView.style.display = 'flex';
-                setTimeout(() => {
-                    homeView.style.opacity = '1';
-                }, 50);
-            }, 500);
+        // العداد التنازلي لرمضان (مثال لتاريخ 1 مارس 2025)
+        function updateCountdown() {
+            const ramadanDate = new Date("March 1, 2025 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = ramadanDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').innerText = "رمضان كريم! استمتع بالطاعات";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').innerText = `متبقي على رمضان: ${days} يوم و ${hours} ساعة`;
         }
 
-        // فتح صفحة المنتج
-        function openProduct(title, price, imgSrc) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-price').innerText = price;
-            document.getElementById('modal-img').src = imgSrc;
-            
-            productModal.style.display = 'block';
-        }
-
-        // إغلاق صفحة المنتج
-        function closeProduct() {
-            productModal.style.display = 'none';
-        }
-
-        // تفاعلية أزرار المقاسات
-        const sizeBtns = document.querySelectorAll('.size-btn');
-        sizeBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                sizeBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        // تشغيل الوظائف عند التحميل
+        window.onload = function() {
+            refreshContent();
+            updateCountdown();
+            setInterval(updateCountdown, 60000); // تحديث كل دقيقة
+        };
     </script>
 </body>
 </html>
