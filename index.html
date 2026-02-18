@@ -3,270 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة رمضان الكبرى | محتوى متجدد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@200;400;700;900&display=swap" rel="stylesheet">
+    <title>منصة رمضان الرقمية | القرآن الكريم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         :root {
-            --gold: #c5a059;
-            --gold-light: #e0c082;
-            --deep-blue: #020813;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --gold: #D4AF37;
+            --deep-blue: #050a14;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(212, 175, 55, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--deep-blue);
+            background: var(--deep-blue);
             color: #fff;
             font-family: 'Cairo', sans-serif;
-            overflow-x: hidden;
-            background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+            background-image: radial-gradient(circle at top, #102a43 0%, #050a14 100%);
+            min-height: 100vh;
         }
 
-        #welcome-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #0a192f 0%, #020813 100%);
-            z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
+        /* حاوية الموقع الكبيرة */
+        .wrapper {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
-        .hero {
-            height: 100vh;
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center;
-            background: url('https://images.unsplash.com/photo-1542662565-7e4b66bae529?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+        /* الجانب الأيمن: مشغل سبوتيفاي والمعلومات الثابتة */
+        .sidebar {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 40px);
+        }
+
+        .spotify-container {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--gold);
+            margin-bottom: 20px;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* كارت هيدر فخم */
+        .hero-banner {
+            background: linear-gradient(45deg, rgba(0,0,0,0.6), rgba(212, 175, 55, 0.1)), url('https://images.unsplash.com/photo-1542662565-7e4b66bae529?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            height: 250px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .hero-banner h1 {
+            font-family: 'Amiri', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.8);
+        }
+
+        /* شبكة المحتوى الديناميكي */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 25px;
             position: relative;
-        }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-
-        .hero-content { position: relative; z-index: 2; animation: fadeInUp 1.5s ease; }
-        .hero h1 { font-family: 'Amiri', serif; font-size: clamp(3rem, 8vw, 6rem); color: var(--gold); text-shadow: 0 0 30px rgba(197, 160, 89, 0.5); }
-
-        .audio-player {
-            position: fixed; bottom: 20px; left: 20px; z-index: 1000;
-            background: var(--glass); backdrop-filter: blur(10px);
-            padding: 12px 20px; border-radius: 50px; border: 1px solid var(--gold);
-            display: flex; align-items: center; gap: 15px;
+            transition: 0.3s;
         }
 
-        .section-title { font-family: 'Amiri', serif; font-size: 2.5rem; color: var(--gold); text-align: center; margin: 50px 0; }
+        .card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.05); }
 
-        .prayer-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px; padding: 0 5%;
-        }
-        .prayer-box {
-            background: var(--glass); border: 1px solid var(--glass-border);
-            padding: 20px; border-radius: 20px; text-align: center; transition: 0.3s;
-        }
-        .prayer-box:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.05); }
+        .label { color: var(--gold); font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; display: block; margin-bottom: 10px; }
 
-        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; padding: 5%; }
+        .big-text { font-family: 'Amiri', serif; font-size: 1.8rem; line-height: 1.6; }
 
-        .content-block {
-            background: var(--glass); border-radius: 25px; padding: 35px;
-            border: 1px solid var(--glass-border); margin-bottom: 25px;
-            position: relative; overflow: hidden;
-        }
-        
-        .refresh-btn {
-            background: none; border: 1px solid var(--gold); color: var(--gold);
-            padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
-            margin-top: 15px; transition: 0.3s;
-        }
-        .refresh-btn:hover { background: var(--gold); color: white; }
-
-        .sebha-circle {
-            width: 180px; height: 180px; border: 5px solid var(--gold);
-            border-radius: 50%; margin: 20px auto; display: flex;
-            flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; position: relative;
+        /* مواقيت الصلاة */
+        .prayer-bar {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
         }
 
-        .zakat-input {
-            width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px;
-            border: 1px solid var(--gold); background: rgba(0,0,0,0.3); color: white;
+        .prayer-item {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid transparent;
         }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .prayer-item.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.2); }
 
-        @media (max-width: 992px) { .main-grid { grid-template-columns: 1fr; } }
+        /* السبحة الإلكترونية */
+        .tasbih-box {
+            text-align: center;
+            padding: 20px;
+        }
+        .counter { font-size: 5rem; font-weight: 900; color: var(--gold); margin: 10px 0; }
+        .tap-btn {
+            width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--gold);
+            background: none; color: white; font-size: 1.5rem; cursor: pointer;
+        }
+
+        @media (max-width: 1000px) {
+            .wrapper { grid-template-columns: 1fr; }
+            .sidebar { height: auto; position: relative; top: 0; }
+            .content-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="welcome-overlay">
-        <i class="fas fa-moon" style="font-size: 4rem; color: var(--gold); margin-bottom: 20px;"></i>
-        <h1 style="font-family: 'Amiri';">مرحباً بك في رحاب رمضان</h1>
-        <p>استمع للقرآن بصوت ياسر الدوسري وتصفح محتواك اليومي</p>
-        <button onclick="startApp()" style="margin-top: 25px; padding: 12px 35px; background: var(--gold); border: none; border-radius: 30px; font-weight: bold; cursor: pointer;">ابدأ الآن</button>
-    </div>
-
-    <div class="audio-player" id="player-container" style="display:none;">
-        <i class="fas fa-play-circle" id="play-icon" onclick="toggleAudio()" style="font-size: 2rem; color: var(--gold); cursor: pointer;"></i>
-        <div style="font-size: 0.8rem;">
-            <span style="color: var(--gold);">القارئ: ياسر الدوسري</span><br>
-            <span id="surah-name">سورة البقرة</span>
+<div class="wrapper">
+    <aside class="sidebar">
+        <h2 style="color:var(--gold); margin-bottom: 15px; text-align: center;">القرآن الكريم</h2>
+        
+        <div class="spotify-container">
+            <iframe style="border-radius:12px" 
+                src="https://open.spotify.com/embed/artist/33zX1sItoH5pG5A14pizT6?utm_source=generator&theme=0" 
+                width="100%" height="352" frameBorder="0" allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+            </iframe>
         </div>
-        <audio id="main-audio" loop>
-            <source src="https://server11.mp3quran.net/yasser/002.mp3" type="audio/mpeg">
-        </audio>
-    </div>
 
-    <section class="hero">
-        <div class="hero-content">
+        <div class="card" style="margin-top: 20px;">
+            <span class="label">📅 التاريخ اليوم</span>
+            <div id="date-hijri" style="font-size: 1.2rem; color: var(--gold);">-- رمضان 1447 هـ</div>
+            <div id="date-meladi" style="font-size: 0.9rem; opacity: 0.6;">-- فبراير 2026</div>
+        </div>
+
+        <div class="card tasbih-box" style="margin-top: 20px;">
+            <span class="label">السبحة الإلكترونية</span>
+            <div id="tasbih-txt" style="font-size: 1rem;">سبحان الله</div>
+            <div class="counter" id="count">0</div>
+            <button class="tap-btn" onclick="countUp()"><i class="fas fa-hand-pointer"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-panel">
+        <div class="hero-banner">
             <h1>رمضان مبارك</h1>
-            <p id="hijri-date" style="font-size: 1.4rem; color: var(--gold-light);"></p>
-        </div>
-    </section>
-
-    <div class="prayer-container" id="prayer-grid">
-        <div class="prayer-box"><h3>الفجر</h3><div id="Fajr">--:--</div></div>
-        <div class="prayer-box"><h3>الظهر</h3><div id="Dhuhr">--:--</div></div>
-        <div class="prayer-box"><h3>العصر</h3><div id="Asr">--:--</div></div>
-        <div class="prayer-box"><h3>المغرب</h3><div id="Maghrib">--:--</div></div>
-        <div class="prayer-box"><h3>العشاء</h3><div id="Isha">--:--</div></div>
-    </div>
-
-    <div class="main-grid">
-        <div class="right-col">
-            <div class="content-block">
-                <span style="color:var(--gold); font-size: 0.8rem;"><i class="fas fa-book-quran"></i> آية مختارة</span>
-                <h2 id="quran-text" style="font-family:'Amiri'; font-size: 2rem; margin: 15px 0; min-height: 80px;">...</h2>
-                <p id="quran-source" style="color: #888; font-style: italic;"></p>
-                <button class="refresh-btn" onclick="updateVerse()">آية أخرى 🔄</button>
-            </div>
-
-            <div class="content-block">
-                <span style="color:var(--gold); font-size: 0.8rem;"><i class="fas fa-kaaba"></i> حديث نبوي</span>
-                <p id="hadith-text" style="font-size: 1.3rem; line-height: 1.8; margin-top: 15px;">...</p>
-                <button class="refresh-btn" onclick="updateHadith()">حديث آخر 🔄</button>
-            </div>
-
-            <div class="content-block" style="border-right: 4px solid var(--gold);">
-                <span style="color:var(--gold); font-size: 0.8rem;"><i class="fas fa-bell"></i> تذكير اليوم</span>
-                <p id="reminder-text" style="font-size: 1.2rem; margin-top: 10px; font-weight: bold;">...</p>
-                <button class="refresh-btn" onclick="updateReminder()">تذكير جديد 🔄</button>
-            </div>
         </div>
 
-        <div class="left-col">
-            <div class="content-block" style="text-align: center;">
-                <h3>السبحة الرقمية</h3>
-                <div class="sebha-circle" onclick="addTasbih()">
-                    <span id="tasbih-count" style="font-size: 3rem; font-weight: bold;">0</span>
-                    <span id="tasbih-type" style="color: var(--gold);">سبحان الله</span>
-                </div>
-                <button onclick="resetTasbih()" style="opacity: 0.5; background: none; border: none; color: white; cursor: pointer;">إعادة</button>
+        <div class="prayer-bar" id="prayers">
+            <div class="prayer-item"><div>الفجر</div><b id="fajr">--:--</b></div>
+            <div class="prayer-item"><div>الظهر</div><b id="dhuhr">--:--</b></div>
+            <div class="prayer-item"><div>العصر</div><b id="asr">--:--</b></div>
+            <div class="prayer-item"><div>المغرب</div><b id="maghrib">--:--</b></div>
+            <div class="prayer-item"><div>العشاء</div><b id="isha">--:--</b></div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <span class="label">✨ آية وتأمل</span>
+                <p class="big-text" id="verse">"وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ"</p>
+                <div id="verse-ref" style="margin-top: 15px; color: var(--gold);">سورة البقرة</div>
             </div>
 
-            <div class="content-block">
-                <h3>حاسبة الزكاة</h3>
-                <input type="number" id="zakat-amount" class="zakat-input" placeholder="أدخل المبلغ..." oninput="calculateZakat()">
-                <div id="zakat-result" style="color: var(--gold-light); font-weight: bold;">الزكاة: 0.00</div>
+            <div class="card">
+                <span class="label">🕌 من مشكاة النبوة</span>
+                <p class="big-text" id="hadith" style="font-size: 1.3rem;">"من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه"</p>
+            </div>
+
+            <div class="card">
+                <span class="label">💡 نصيحة الصائم</span>
+                <p id="tip" style="font-size: 1.2rem;">اجعل لنفسك ورداً ثابتاً من القرآن الكريم اليوم.</p>
+            </div>
+
+            <div class="card">
+                <span class="label">💰 حاسبة زكاة المال</span>
+                <input type="number" id="zakat-val" placeholder="أدخل المبلغ هنا..." 
+                    style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--gold); color: #fff; border-radius: 10px;"
+                    oninput="calcZakat()">
+                <div id="zakat-res" style="margin-top: 10px; font-weight: bold; color: var(--gold);">الزكاة: 0.00</div>
             </div>
         </div>
-    </div>
+    </main>
+</div>
 
-    <script>
-        // قاعدة البيانات المتجددة
-        const dataDB = {
-            verses: [
-                {t: "شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ", s: "البقرة: 185"},
-                {t: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ أُجِيبُ دَعْوَةَ الدَّاعِ", s: "البقرة: 186"},
-                {t: "يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ", s: "البقرة: 183"},
-                {t: "لَيْلَةُ الْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ", s: "القدر: 3"},
-                {t: "وَسَارِعُوا إِلَىٰ مَغْفِرَةٍ مِّن رَّبِّكُمْ وَجَنَّةٍ عَرْضُهَا السَّمَاوَاتُ وَالْأَرْضُ", s: "آل عمران: 133"},
-                {t: "وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ", s: "البقرة: 197"}
-            ],
-            hadiths: [
-                "من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه",
-                "إذا جاء رمضان فتحت أبواب الجنة وغلقت أبواب النار",
-                "لخلوف فم الصائم أطيب عند الله من ريح المسك",
-                "الصيام والقرآن يشفعان للعبد يوم القيامة",
-                "تسحروا فإن في السحور بركة",
-                "عمرة في رمضان تعدل حجة"
-            ],
-            reminders: [
-                "لا تنسَ كثرة الدعاء عند الإفطار، فللصائم دعوة لا ترد.",
-                "بادر بالصدقة اليوم، فالنبي كان أجود ما يكون في رمضان.",
-                "صلة الرحم في رمضان لها أجر عظيم، اتصل بأقاربك اليوم.",
-                "اجعل لسانك رطباً بذكر الله خلال عملك اليوم.",
-                "القرآن شفيعك، حاول قراءة صفحتين على الأقل بعد كل صلاة.",
-                "قلل من تصفح الهاتف واستمتع بروحانية الشهر الكريم."
-            ]
-        };
+<script>
+    // 1. قواعد البيانات (تتغير تلقائياً)
+    const db = {
+        verses: [
+            {t: "شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ", r: "البقرة 185"},
+            {t: "وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ", r: "البقرة 197"},
+            {t: "لَيْلَةُ الْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ", r: "القدر 3"},
+            {t: "يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ", r: "البقرة 183"}
+        ],
+        hadiths: [
+            "تسحروا فإن في السحور بركة",
+            "لخلوف فم الصائم أطيب عند الله من ريح المسك",
+            "الصيام جُنَّة (وقاية)",
+            "عمرة في رمضان تعدل حجة"
+        ],
+        tips: [
+            "أكثر من الدعاء قبل الإفطار بعشر دقائق.",
+            "قلل من الملح في السحور لتجنب العطش.",
+            "حاول ختم القرآن بتدبر وليس بمجرد القراءة.",
+            "تصدق ولو بجنيه واحد يومياً في رمضان."
+        ]
+    };
 
-        // دوال التحديث التلقائي
-        function updateVerse() {
-            const v = dataDB.verses[Math.floor(Math.random() * dataDB.verses.length)];
-            document.getElementById('quran-text').innerText = `"${v.t}"`;
-            document.getElementById('quran-source').innerText = v.s;
-        }
+    // 2. دالة التحديث عند الدخول
+    function refreshDynamicContent() {
+        const v = db.verses[Math.floor(Math.random() * db.verses.length)];
+        const h = db.hadiths[Math.floor(Math.random() * db.hadiths.length)];
+        const t = db.tips[Math.floor(Math.random() * db.tips.length)];
 
-        function updateHadith() {
-            const h = dataDB.hadiths[Math.floor(Math.random() * dataDB.hadiths.length)];
-            document.getElementById('hadith-text').innerText = `قال ﷺ: "${h}"`;
-        }
+        document.getElementById('verse').innerText = `"${v.t}"`;
+        document.getElementById('verse-ref').innerText = v.r;
+        document.getElementById('hadith').innerText = `قال ﷺ: "${h}"`;
+        document.getElementById('tip').innerText = t;
+    }
 
-        function updateReminder() {
-            const r = dataDB.reminders[Math.floor(Math.random() * dataDB.reminders.length)];
-            document.getElementById('reminder-text').innerText = r;
-        }
+    // 3. جلب المواقيت و التاريخ الهجري (API)
+    async function initData() {
+        try {
+            const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Cairo&country=Egypt&method=5');
+            const data = await res.json();
+            const d = data.data;
+            
+            // التاريخ
+            document.getElementById('date-hijri').innerText = `${d.date.hijri.day} ${d.date.hijri.month.ar} ${d.date.hijri.year} هـ`;
+            document.getElementById('date-meladi').innerText = d.date.gregorian.date;
 
-        // التحكم في الصوت
-        const audio = document.getElementById('main-audio');
-        function startApp() {
-            document.getElementById('welcome-overlay').style.display = 'none';
-            document.getElementById('player-container').style.display = 'flex';
-            audio.play();
-            document.getElementById('play-icon').className = 'fas fa-pause-circle';
-        }
+            // المواقيت
+            document.getElementById('fajr').innerText = d.timings.Fajr;
+            document.getElementById('dhuhr').innerText = d.timings.Dhuhr;
+            document.getElementById('asr').innerText = d.timings.Asr;
+            document.getElementById('maghrib').innerText = d.timings.Maghrib;
+            document.getElementById('isha').innerText = d.timings.Isha;
+        } catch(e) { console.log("API Error"); }
+    }
 
-        function toggleAudio() {
-            if (audio.paused) { audio.play(); document.getElementById('play-icon').className = 'fas fa-pause-circle'; }
-            else { audio.pause(); document.getElementById('play-icon').className = 'fas fa-play-circle'; }
-        }
+    // 4. السبحة
+    let count = 0;
+    const words = ["سبحان الله", "الحمد لله", "لا إله إلا الله", "الله أكبر"];
+    function countUp() {
+        count++;
+        document.getElementById('count').innerText = count;
+        document.getElementById('tasbih-txt').innerText = words[Math.floor(count/33) % 4];
+    }
 
-        // جلب المواقيت (القاهرة كمثال ويمكن تغييرها)
-        async function fetchPrayers() {
-            try {
-                const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Cairo&country=Egypt&method=5');
-                const data = await res.json();
-                const times = data.data.timings;
-                ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
-                    document.getElementById(p).innerText = times[p];
-                });
-                document.getElementById('hijri-date').innerText = `${data.data.date.hijri.day} ${data.data.date.hijri.month.ar} ${data.data.date.hijri.year} هـ`;
-            } catch(e) { console.log("Error loading prayers"); }
-        }
+    // 5. الزكاة
+    function calcZakat() {
+        let v = document.getElementById('zakat-val').value;
+        document.getElementById('zakat-res').innerText = "الزكاة الواجبة: " + (v * 0.025).toFixed(2);
+    }
 
-        // السبحة
-        let count = 0;
-        const tasbihWords = ["سبحان الله", "الحمد لله", "لا إله إلا الله", "الله أكبر"];
-        function addTasbih() {
-            count++;
-            document.getElementById('tasbih-count').innerText = count;
-            document.getElementById('tasbih-type').innerText = tasbihWords[Math.floor(count/33) % 4];
-        }
-        function resetTasbih() { count = 0; document.getElementById('tasbih-count').innerText = 0; }
+    window.onload = () => {
+        refreshDynamicContent();
+        initData();
+    };
+</script>
 
-        // الزكاة
-        function calculateZakat() {
-            let val = document.getElementById('zakat-amount').value;
-            document.getElementById('zakat-result').innerText = "الزكاة: " + (val * 0.025).toFixed(2);
-        }
-
-        // التشغيل الابتدائي
-        window.onload = () => {
-            updateVerse();
-            updateHadith();
-            updateReminder();
-            fetchPrayers();
-        };
-    </script>
 </body>
 </html>
