@@ -5,319 +5,221 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEMON | CLOTHING</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Cairo:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Cairo:wght@400;700;900&display=swap');
 
         :root {
             --background-color: #0a0a0a;
             --text-color: #f5f5f5;
             --accent-color: #ffffff;
+            --secondary-bg: #111;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             background-color: var(--background-color);
             color: var(--text-color);
             font-family: 'Cairo', sans-serif;
             overflow-x: hidden;
-        }
-
-        /* --- 1. قسم الهيدر وخلفية الفيديو --- */
-        #hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        #bg-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: auto;
-            height: auto;
-            min-width: 100%;
-            min-height: 100%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            object-fit: cover; /* يضمن ملء الفيديو للشاشة */
+            padding-top: 80px; /* لإعطاء مساحة للهيدر الثابت */
         }
         
-        .hero-overlay {
-            position: absolute;
+        a { color: inherit; text-decoration: none; }
+
+        /* ======== 1. الهيدر الثابت وشريط التنقل ======== */
+        .main-header {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* تعتيم بسيط فوق الفيديو */
-            z-index: 0;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .header-logo img { height: 40px; }
+        .header-nav { display: flex; align-items: center; gap: 30px; }
+        .nav-link { font-weight: 700; font-size: 1.1rem; transition: color 0.3s; }
+        .nav-link:hover { color: var(--accent-color); }
+        .cart-icon { position: relative; }
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background-color: white;
+            color: black;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 900;
         }
 
-        .hero-content {
-            z-index: 1;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
+        /* ======== 2. نظام الصفحات ======== */
+        .page {
+            display: none; /* يتم إظهار الصفحة النشطة فقط عبر JS */
+            width: 100%;
+            min-height: calc(100vh - 80px);
+            animation: fadeIn 0.6s ease;
         }
-
-        .logo-container img {
-            max-width: 180px; /* حجم اللوجو */
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .hero-title {
-            font-family: 'Anton', sans-serif;
-            font-size: clamp(4rem, 15vw, 12rem); /* حجم خط متجاوب */
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--accent-color);
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
+        .page.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* --- 2. قسم عرض المنتجات --- */
-        #shop {
-            padding: 100px 5%;
-            width: 100%;
+        /* ======== 3. صفحة الهبوط (الرئيسية) ======== */
+        #homePage {
+            height: calc(100vh - 80px); /* يملأ باقي الشاشة بعد الهيدر */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-        
+        #bg-video {
+            position: absolute; top: 50%; left: 50%;
+            width: auto; height: auto; min-width: 100%; min-height: 100%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(0,0,0,0.5) 50%, rgba(10,10,10,1) 100%);
+            z-index: 0;
+        }
+        .hero-content {
+            z-index: 1; text-align: center;
+        }
+        .hero-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(4rem, 15vw, 12rem);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+        .shop-now-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .shop-now-btn:hover { background-color: var(--accent-color); color: var(--background-color); }
+
+        /* ======== 4. صفحة الكتالوج (عرض المنتجات) ======== */
+        #catalogPage { padding: 80px 5%; }
         .section-title {
             font-family: 'Anton', sans-serif;
-            font-size: clamp(3rem, 12vw, 8rem);
+            font-size: clamp(3rem, 10vw, 6rem);
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
             text-transform: uppercase;
-            opacity: 0; /* يبدأ مخفيًا */
-            transform: translateY(50px); /* يبدأ لأسفل قليلاً */
-            transition: opacity 1s, transform 1s;
         }
-
-        /* كلاس يضاف بواسطة الجافاسكريبت عند الظهور */
-        .section-title.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
         }
-
         .product-card {
-            background-color: #111;
+            background-color: var(--secondary-bg);
             border-radius: 8px;
             overflow: hidden;
-            text-decoration: none;
-            color: var(--text-color);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            opacity: 0; /* يبدأ مخفيًا */
-            transform: translateY(50px); /* يبدأ لأسفل قليلاً */
-            transition: opacity 0.8s, transform 0.8s;
         }
-        
-        .product-card.is-visible {
-             opacity: 1;
-             transform: translateY(0);
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
         .product-image-container {
-            width: 100%;
-            padding-top: 125%; /* نسبة العرض إلى الارتفاع (4:5) */
-            position: relative;
-            background-color: #222;
+            width: 100%; padding-top: 125%; position: relative; background-color: #222;
         }
-
         .product-image-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 0.4s ease;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
         }
+        .product-info { padding: 20px; text-align: center; }
+        .product-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .product-price { font-size: 1.1rem; color: #aaa; }
 
-        .product-info {
-            padding: 20px;
-            text-align: center;
+        /* ======== 5. صفحة تفاصيل المنتج ======== */
+        #productDetailPage { padding: 60px 5%; }
+        .product-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: auto;
         }
-
-        .product-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .product-detail-image img { width: 100%; border-radius: 8px; }
+        .product-detail-info {
+            display: flex; flex-direction: column; gap: 25px;
         }
+        .product-detail-name { font-family: 'Anton', sans-serif; font-size: 3rem; text-transform: uppercase; }
+        .product-detail-price { font-size: 2rem; font-weight: 700; }
+        .product-detail-desc { font-size: 1.1rem; line-height: 1.8; color: #ccc; }
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 700; }
+        .size-selector { display: flex; gap: 10px; }
+        .size-btn {
+            padding: 10px 20px; border: 1px solid #555; cursor: pointer; transition: 0.3s;
+        }
+        .size-btn.selected { background-color: white; color: black; border-color: white; }
+        .quantity-selector input {
+            width: 60px; padding: 10px; text-align: center; background: #333; color: white; border: 1px solid #555;
+        }
+        .add-to-cart-btn {
+            padding: 18px; background-color: var(--accent-color); color: var(--background-color);
+            border: none; font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: opacity 0.3s;
+            text-transform: uppercase;
+        }
+        .add-to-cart-btn:hover { opacity: 0.8; }
+        
+        /* ======== 6. صفحة سلة المشتريات ======== */
+        #cartPage { padding: 80px 5%; max-width: 900px; margin: 0 auto; }
+        .cart-item {
+            display: grid; grid-template-columns: 100px 1fr auto;
+            gap: 20px; align-items: center; margin-bottom: 30px;
+            border-bottom: 1px solid #333; padding-bottom: 30px;
+        }
+        .cart-item-img img { width: 100%; border-radius: 4px; }
+        .cart-item-remove { font-size: 1.5rem; cursor: pointer; transition: color 0.3s; }
+        .cart-item-remove:hover { color: red; }
+        .cart-summary {
+            margin-top: 40px; border-top: 2px solid white; padding-top: 20px;
+            text-align: left;
+        }
+        .cart-total { font-size: 2rem; font-weight: 900; margin-bottom: 20px; }
+        .checkout-btn {
+            display: block; width: 100%; padding: 18px; background-color: var(--accent-color);
+            color: var(--background-color); border: none; font-size: 1.2rem; font-weight: 900;
+            text-transform: uppercase; cursor: pointer; transition: opacity 0.3s;
+        }
+        .checkout-btn:hover { opacity: 0.8; }
+        .empty-cart-message { text-align: center; font-size: 1.5rem; padding: 50px 0;}
 
-        .product-price {
-            font-size: 1.1rem;
-            color: #aaa;
+        /* ======== تصميم متجاوب (Responsive) ======== */
+        @media (max-width: 768px) {
+            body { padding-top: 70px; }
+            .main-header { height: 70px; }
+            .header-logo img { height: 30px; }
+            .product-detail-grid { grid-template-columns: 1fr; }
+            #catalogPage, #productDetailPage, #cartPage { padding: 40px 5%; }
         }
 
     </style>
 </head>
 <body>
 
-    <!-- ====================================================== -->
-    <!-- ==== القسم الأول: الواجهة الرئيسية مع خلفية الفيديو ==== -->
-    <!-- ====================================================== -->
-    <header id="hero">
-        <!-- طبقة التعتيم -->
-        <div class="hero-overlay"></div>
-
-        <!-- 
-            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            !!!!    ضع رابط الفيديو الخاص بك هنا   !!!!
-            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        -->
-        <video autoplay muted loop playsinline id="bg-video">
-            <source src="YOUR_VIDEO_URL.mp4" type="video/mp4">
-            <!-- يمكنك إضافة صيغ أخرى للفيديو لدعم متصفحات أكثر -->
-            <!-- <source src="YOUR_VIDEO_URL.webm" type="video/webm"> -->
-            عذرًا، متصفحك لا يدعم عرض الفيديوهات.
-        </video>
-
-        <div class="hero-content">
-            <div class="logo-container">
-                 <!-- 
-                    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    !!!!      ضع رابط اللوجو هنا        !!!!
-                    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                 -->
-                <img src="YOUR_LOGO_URL.png" alt="Demon Logo">
-            </div>
-            <h1 class="hero-title">DEMON</h1>
-        </div>
-    </header>
-
-    <!-- ====================================================== -->
-    <!-- ======== القسم الثاني: عرض المنتجات (المتجر) ========= -->
-    <!-- ====================================================== -->
-    <main id="shop">
-        <h2 class="section-title">THE COLLECTION</h2>
-        <div class="products-grid" id="products-grid-container">
-            <!-- سيتم إضافة المنتجات هنا تلقائيًا بواسطة JavaScript -->
-        </div>
-    </main>
-
-    <script>
-        // =================================================================
-        // =============  بيانات المنتجات (عدّل هنا)  =======================
-        // =================================================================
-        // يمكنك إضافة أو حذف المنتجات من هذه القائمة بسهولة
-        // 'image' : هو رابط صورة المنتج
-        // 'name'  : هو اسم المنتج
-        // 'price' : هو سعر المنتج
-        // 'url'   : هو الرابط الذي سينتقل إليه المستخدم عند الضغط على المنتج
-        // =================================================================
-
-        const productsData = [
-            {
-                image: 'https://i.pinimg.com/564x/e7/0a/6e/e70a6e87295f70413e1147545e82b3d1.jpg',
-                name: 'DEMON HOODIE',
-                price: '350.00 SAR',
-                url: '#' // ضع رابط صفحة المنتج هنا
-            },
-            {
-                image: 'https://i.pinimg.com/564x/f3/f9/cf/f3f9cfb7f7f90f772e5050f28b7f8c08.jpg',
-                name: 'VINTAGE T-SHIRT',
-                price: '180.00 SAR',
-                url: '#' // ضع رابط صفحة المنتج هنا
-            },
-            {
-                image: 'https://i.pinimg.com/564x/87/49/a0/8749a0d1f42d2a450531572e42442431.jpg',
-                name: 'OVERSIZED TEE',
-                price: '220.00 SAR',
-                url: '#' // ضع رابط صفحة المنتج هنا
-            },
-            {
-                image: 'https://i.pinimg.com/564x/cc/88/54/cc88544d6a693a2074a3f4a3e8b4e7b8.jpg',
-                name: 'WASHED BLACK HOODIE',
-                price: '380.00 SAR',
-                url: '#' // ضع رابط صفحة المنتج هنا
-            },
-            {
-                image: 'https://i.pinimg.com/564x/48/82/3a/48823a4b910043a50e56f4d0a3d5e236.jpg',
-                name: 'GRAPHIC T-SHIRT',
-                price: '195.00 SAR',
-                url: '#' // ضع رابط صفحة المنتج هنا
-            },
-            {
-                image: 'https://i.pinimg.com/564x/e0/e9/c6/e0e9c609618c7e4e13e9a7e84a29a435.jpg',
-                name: 'CARGO PANTS',
-                price: '290.00 SAR',
-                url: '#' // ضع رابط صفحة المنتج هنا
-            },
-        ];
-
-        // =================================================================
-        // ======== الكود المسؤول عن بناء الموقع (لا داعي لتعديله) ==========
-        // =================================================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // --- بناء شبكة المنتجات ---
-            const gridContainer = document.getElementById('products-grid-container');
-            if(gridContainer) {
-                productsData.forEach(product => {
-                    // إنشاء بطاقة المنتج
-                    const productCard = document.createElement('a');
-                    productCard.href = product.url;
-                    productCard.className = 'product-card';
-
-                    // إنشاء محتوى البطاقة
-                    productCard.innerHTML = `
-                        <div class="product-image-container">
-                            <img src="${product.image}" alt="${product.name}" loading="lazy">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-price">${product.price}</p>
-                        </div>
-                    `;
-                    
-                    // إضافة البطاقة إلى الشبكة
-                    gridContainer.appendChild(productCard);
-                });
-            }
-
-            // --- تفعيل الحركات عند التمرير (Scroll Animations) ---
-            const animatedElements = document.querySelectorAll('.section-title, .product-card');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, {
-                threshold: 0.1 // نسبة ظهور العنصر في الشاشة لبدء الحركة
-            });
-
-            animatedElements.forEach(el => {
-                observer.observe(el);
-            });
-        });
-
-    </script>
-</body>
-</html>
+    <!-- ======================= الهيدر الثابت ======================= -->
+    <header class="main-header">
+        <a href="#home" class="header-logo" data-page="homePage">
+            <!-- !!!! ضع رابط اللوجحدث خطأ أثناء الإجابة عن سؤالك. يُرجى إعادة المحاولة لاحقًا.
